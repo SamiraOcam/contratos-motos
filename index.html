@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrato de Compraventa de Motocicleta</title>
+  <!-- Librería gratuita para generar códigos QR -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f4f6f9; color: #333; }
+    .container { max-width: 900px; margin: 0 auto; background: white; padding: 35px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #1a73e8; margin-bottom: 5px; font-size: 22px; text-transform: uppercase; }
+    .sub-title { text-align: center; font-size: 13px; color: #666; margin-bottom: 25px; }
+    
+    .section-header { background-color: #1a73e8; color: white; padding: 8px 12px; font-weight: bold; font-size: 14px; margin-top: 20px; margin-bottom: 15px; border-radius: 4px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+    
+    .form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
+    label { font-weight: bold; margin-bottom: 5px; font-size: 13px; color: #444; }
+    input, select, textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+    textarea { resize: vertical; height: 60px; font-family: inherit; }
+    
+    .clausulas { font-size: 12px; color: #444; text-align: justify; line-height: 1.5; background: #f9f9f9; padding: 15px; border: 1px solid #e0e0e0; border-radius: 4px; margin-top: 15px; }
+    .clausulas p { margin: 6px 0; }
+
+    /* Área de firmas */
+    .firmas-container { display: flex; justify-content: space-between; margin-top: 30px; gap: 20px; }
+    .firma-box { width: 48%; text-align: center; }
+    .firma-preview { border: 1px dashed #999; background: #fafafa; height: 110px; border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; }
+    .firma-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    
+    .btn { background-color: #1a73e8; color: white; border: none; padding: 8px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .btn:hover { background-color: #1557b0; }
+    .btn-clear { background: #dc3545; margin-top: 5px; }
+    .btn-print { background-color: #28a745; width: 100%; padding: 14px; font-size: 16px; margin-top: 25px; }
+
+    /* Ventana emergente (Modal) para el código QR */
+    #modalQR { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: white; padding: 30px; border-radius: 8px; text-align: center; max-width: 320px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    #qrcode { margin: 20px auto; display: flex; justify-content: center; }
+
+    @media print {
+      body { background: white; margin: 0; }
+      .container { box-shadow: none; border: none; padding: 0; width: 100%; max-width: 100%; }
+      .no-print, button { display: none !important; }
+      input, textarea { border: none; background: transparent; padding: 0; font-size: 13px; font-weight: bold; }
+      .firma-preview { border: none; }
+      .section-header { background-color: #eee !important; color: #000 !important; border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Contrato de Compraventa de Vehículo Automotor</h1>
+    <div class="sub-title">Documento Privado de Transacción de Motocicleta</div>
+
+    <!-- DATOS DEL VENDEDOR -->
+    <div class="section-header">1. DATOS DEL VENDEDOR</div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Nombre Completo del Vendedor:</label>
+        <input type="text" id="vendedorNombre" placeholder="Ej. Carlos Alberto Gómez">
+      </div>
+      <div class="form-group">
+        <label>Cédula / Identificación N°:</label>
+        <input type="text" id="vendedorId" placeholder="Ej. 1.098.765.432">
+      </div>
+      <div class="form-group">
+        <label>Ciudad de Domicilio:</label>
+        <input type="text" id="vendedorCiudad" placeholder="Ej. Bogotá">
+      </div>
+      <div class="form-group">
+        <label>Teléfono de Contacto:</label>
+        <input type="text" id="vendedorTel" placeholder="Ej. 300 123 4567">
+      </div>
+    </div>
+
+    <!-- DATOS DEL COMPRADOR -->
+    <div class="section-header">2. DATOS DEL COMPRADOR</div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Nombre Completo del Comprador:</label>
+        <input type="text" id="compradorNombre" placeholder="Ej. Maria Fernanda Rojas">
+      </div>
+      <div class="form-group">
+        <label>Cédula / Identificación N°:</label>
+        <input type="text" id="compradorId" placeholder="Ej. 1.012.345.678">
+      </div>
+      <div class="form-group">
+        <label>Ciudad de Domicilio:</label>
+        <input type="text" id="compradorCiudad" placeholder="Ej. Medellín">
+      </div>
+      <div class="form-group">
+        <label>Teléfono de Contacto:</label>
+        <input type="text" id="compradorTel" placeholder="Ej. 315 987 6543">
+      </div>
+    </div>
+
+    <!-- DATOS DE LA MOTOCICLETA -->
+    <div class="section-header">3. ESPECIFICACIONES DE LA MOTOCICLETA</div>
+    <div class="grid-3">
+      <div class="form-group">
+        <label>Marca:</label>
+        <input type="text" id="motoMarca" placeholder="Ej. Yamaha">
+      </div>
+      <div class="form-group">
+        <label>Línea / Modelo:</label>
+        <input type="text" id="motoLinea" placeholder="Ej. FZ 250">
+      </div>
+      <div class="form-group">
+        <label>Año (Modelo):</label>
+        <input type="number" id="motoAnio" placeholder="Ej. 2023">
+      </div>
+      <div class="form-group">
+        <label>Placa:</label>
+        <input type="text" id="motoPlaca" placeholder="Ej. ABC12D">
+      </div>
+      <div class="form-group">
+        <label>Color:</label>
+        <input type="text" id="motoColor" placeholder="Ej. Negro / Azul">
+      </div>
+      <div class="form-group">
+        <label>Cilindraje (cc):</label>
+        <input type="text" id="motoCilindraje" placeholder="Ej. 249 cc">
+      </div>
+      <div class="form-group">
+        <label>Número de Motor:</label>
+        <input type="text" id="motoMotor" placeholder="Ej. G3J6E012345">
+      </div>
+      <div class="form-group" style="grid-column: span 2;">
+        <label>Número de Chasis / VIN:</label>
+        <input type="text" id="motoChasis" placeholder="Ej. 9F6BA01234567890">
+      </div>
+    </div>
+
+    <!-- PRECIO Y CONDICIONES DE PAGO -->
+    <div class="section-header">4. PRECIO Y FORMA DE PAGO</div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Precio Acordado ($):</label>
+        <input type="text" id="precioAcordado" placeholder="Ej. 10.500.000">
+      </div>
+      <div class="form-group">
+        <label>Fecha del Contrato:</label>
+        <input type="text" id="fechaContrato">
+      </div>
+      <div class="form-group" style="grid-column: span 2;">
+        <label>Forma y Condiciones de Pago:</label>
+        <textarea id="formaPago" placeholder="Ej. Pago de contado mediante transferencia bancaria al momento de la firma y entrega de la motocicleta."></textarea>
+      </div>
+    </div>
+
+    <!-- CLÁUSULAS LEGALES -->
+    <div class="section-header">5. CLÁUSULAS DEL CONTRATO</div>
+    <div class="clausulas">
+      <p><strong>PRIMERA - OBJETO:</strong> El VENDEDOR transfiere a título de compraventa al COMPRADOR la propiedad de la motocicleta descrita en la sección 3 de este documento.</p>
+      <p><strong>SEGUNDA - SANEAMIENTO:</strong> EL COMPRADOR declara que conoce, acepta y es consciente del estado físico, mecánico y general en el que se encuentra la motocicleta al momento de la firma del presente contrato, y manifiesta recibirla a satisfacción, de acuerdo con las condiciones en las que fue inspeccionada y aceptada.</p>
+      <p><strong>TERCERA - TRASPASO:</strong> Las partes acuerdan realizar los trámites correspondientes ante la autoridad de tránsito para perfeccionar el traspaso legal de la motocicleta dentro de los días hábiles siguientes a la fecha de este contrato.</p>
+      <p><strong>CUARTA - ACEPTACIÓN:</strong> Las partes leen y aceptan las condiciones establecidas en el presente contrato y firman a continuación en señal de conformidad.</p>
+    </div>
+
+    <!-- ÁREAS DE FIRMA CON OPCIÓN QR -->
+    <div class="firmas-container">
+      <div class="firma-box">
+        <label>Firma del VENDEDOR:</label>
+        <div class="firma-preview" id="previewVendedor">
+          <span style="color:#aaa; font-size:12px;">Sin firma</span>
+        </div>
+        <button type="button" class="btn no-print" onclick="abrirQR('vendedor')">📱 Firmar con Celular (QR)</button>
+        <button type="button" class="btn btn-clear no-print" onclick="limpiarFirma('vendedor')">Borrar</button>
+      </div>
+      
+      <div class="firma-box">
+        <label>Firma del COMPRADOR:</label>
+        <div class="firma-preview" id="previewComprador">
+          <span style="color:#aaa; font-size:12px;">Sin firma</span>
+        </div>
+        <button type="button" class="btn no-print" onclick="abrirQR('comprador')">📱 Firmar con Celular (QR)</button>
+        <button type="button" class="btn btn-clear no-print" onclick="limpiarFirma('comprador')">Borrar</button>
+      </div>
+    </div>
+
+    <!-- BOTÓN DE IMPRESIÓN / DESCARGA PDF -->
+    <button type="button" class="btn btn-print no-print" onclick="window.print()">📄 Imprimir / Guardar Contrato en PDF</button>
+
+  </div>
+
+  <!-- MODAL DEL CÓDIGO QR -->
+  <div id="modalQR" class="no-print">
+    <div class="modal-content">
+      <h3 style="margin-top:0; color:#1a73e8;">Escanea para firmar</h3>
+      <p style="font-size:13px; color:#555;">Abre la cámara de tu celular y escanea este código QR para firmar en tu pantalla táctil:</p>
+      <div id="qrcode"></div>
+      <button type="button" class="btn" onclick="cerrarQR()" style="background:#6c757d; margin-top:10px;">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+    // Fecha actual
+    const hoy = new Date();
+    document.getElementById("fechaContrato").value = hoy.toLocaleDateString("es-CO", { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Formato de precio con puntos
+    const inputPrecio = document.getElementById("precioAcordado");
+    inputPrecio.addEventListener("input", (e) => {
+      let valor = e.target.value.replace(/\D/g, "");
+      e.target.value = valor === "" ? "" : Number(valor).toLocaleString("es-CO");
+    });
+
+    // SISTEMA DE FIRMA POR QR / VENTANA DE FIRMA
+    let tipoActual = null;
+
+    // Si abrimos la página directamente como pantalla de firma desde el celular:
+    const params = new URLSearchParams(window.location.search);
+    const esPantallaFirma = params.get("firmar");
+
+    if (esPantallaFirma) {
+      // Convertir la página en un panel exclusivo de firma móvil
+      document.body.innerHTML = `
+        <div style="text-align:center; padding:20px; font-family:sans-serif;">
+          <h2 style="color:#1a73e8;">Firme en el recuadro</h2>
+          <p style="color:#666; font-size:14px;">Use su dedo para firmar a continuación:</p>
+          <div style="border:2px dashed #1a73e8; background:#fff; height:300px; margin:20px auto; max-width:450px; border-radius:8px; position:relative;">
+            <canvas id="canvasCelular" style="width:100%; height:100%; cursor:crosshair;"></canvas>
+          </div>
+          <button onclick="guardarFirmaCelular()" style="background:#28a745; color:white; border:none; padding:15px 30px; font-size:16px; border-radius:5px; font-weight:bold; cursor:pointer; width:100%; max-width:450px;">Enviar Firma</button>
+          <button onclick="limpiarCanvasCelular()" style="background:#dc3545; color:white; border:none; padding:10px; font-size:14px; border-radius:5px; cursor:pointer; width:100%; max-width:450px; margin-top:10px;">Limpiar</button>
+        </div>
+      `;
+
+      const canvas = document.getElementById("canvasCelular");
+      const ctx = canvas.getContext("2d");
+      let dibujando = false;
+
+      function ajustarCanvas() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        ctx.lineWidth = 3;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "#000";
+      }
+      window.onload = ajustarCanvas;
+
+      function pos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      canvas.addEventListener("mousedown", (e) => { dibujando = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+      canvas.addEventListener("mousemove", (e) => { if (!dibujando) return; const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+      window.addEventListener("mouseup", () => dibujando = false);
+
+      canvas.addEventListener("touchstart", (e) => { dibujando = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+      canvas.addEventListener("touchmove", (e) => { if (!dibujando) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+      window.addEventListener("touchend", () => dibujando = false);
+
+      window.limpiarCanvasCelular = function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      window.guardarFirmaCelular = function() {
+        const dataURL = canvas.toDataURL("image/png");
+        localStorage.setItem("firma_" + esPantallaFirma, dataURL);
+        alert("¡Firma guardada con éxito! Ya puede cerrar esta ventana y volver al computador.");
+      }
+    } else {
+      // LÓGICA DEL COMPUTADOR (Generador de QR y receptor de firmas)
+      window.abrirQR = function(tipo) {
+        tipoActual = tipo;
+        document.getElementById("qrcode").innerHTML = "";
+        
+        // Generar enlace apuntando al mismo archivo añadiendo ?firmar=tipo
+        const urlActual = window.location.href.split('?')[0] + "?firmar=" + tipo;
+        
+        new QRCode(document.getElementById("qrcode"), {
+          text: urlActual,
+          width: 200,
+          height: 200
+        });
+
+        document.getElementById("modalQR").style.display = "flex";
+      }
+
+      window.cerrarQR = function() {
+        document.getElementById("modalQR").style.display = "none";
+        // Revisar si ya firmó y actualizar la vista
+        const firmaGuardada = localStorage.getItem("firma_" + tipoActual);
+        if (firmaGuardada) {
+          document.getElementById("preview" + (tipoActual === 'vendedor' ? 'Vendedor' : 'Comprador')).innerHTML = `<img src="${firmaGuardada}">`;
+        }
+      }
+
+      window.limpiarFirma = function(tipo) {
+        localStorage.removeItem("firma_" + tipo);
+        document.getElementById("preview" + (tipo === 'vendedor' ? 'Vendedor' : 'Comprador')).innerHTML = '<span style="color:#aaa; font-size:12px;">Sin firma</span>';
+      }
+    }
+  </script>
+</body>
+</html> 
